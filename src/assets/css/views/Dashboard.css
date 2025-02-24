@@ -1,0 +1,30 @@
+.cards {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0.5em;
+    transition: ease-out 0.2s;
+
+    padding: 1em 3em;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.cards:hover {
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+    font-size: 1.1em;
+    font-weight: 600;
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 1em;
+
+    margin-bottom: -.9em;
+}
+
+.year-selector {
+    width: fit-content;
+    margin-left: auto;
+}

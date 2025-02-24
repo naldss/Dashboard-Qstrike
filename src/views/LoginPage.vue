@@ -35,6 +35,7 @@
             </div>
 
         </div>
+        <LoaderUtility v-if="isLoading" />
     </div>
 </template>
 
@@ -42,6 +43,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useToast } from "vue-toastification";
+import LoaderUtility from '@/components/Utilities/LoaderUtility.vue';
 
 const toast = useToast();
 const router = useRouter();
@@ -49,14 +51,19 @@ const router = useRouter();
 const email = ref('');
 const password = ref('');
 
-const handleLogin = () => {
-    if (email.value === 'seo@qstrike.com' && password.value === 'password') {
-        toast.success('Login Successful');
-        localStorage.setItem('authToken', true);
-        router.push('/dashboard');
-    } else {
-        toast.error('Credentials Incorrect');
-    }
+const isLoading = ref(false);
+
+const handleLogin = async () => {
+  isLoading.value = true;
+  await new Promise(resolve => setTimeout(resolve, 2000)); // 2-second delay for testing
+  if (email.value === 'seo@qstrike.com' && password.value === 'password') {
+    toast.success('Welcome to Dashboard!');
+    localStorage.setItem('authToken', true);
+    router.push('/dashboard');
+  } else {
+    toast.error('Incorrect Email or Password');
+  }
+  isLoading.value = false;
 };
 
 const featureNotAvailable = () => {
