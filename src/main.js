@@ -7,6 +7,10 @@ import "uikit/dist/js/uikit.min.js";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
+import { Chart, registerables } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+Chart.register(...registerables, ChartDataLabels);
+
 // Debounce ResizeObserver workaround
 const debounce = (fn, delay) => {
     let timeout;
@@ -31,9 +35,9 @@ app.use(createPinia());
 app.use(Toast, {
     position: 'top-right',
     timeout: 2000,
-    closeOnClick: true,
+    closeOnClick: false,
     pauseOnHover: true,
-    draggable: true
+    draggable: false
 });
 
 app.mount("#app");

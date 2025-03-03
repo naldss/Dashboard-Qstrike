@@ -27,11 +27,13 @@
             <hr>
 
             <button @click="featureNotAvailable" class="custom-button signin-with-google uk-width-1-1">
-                <img src="/icons/google.png" alt="Google Logo" width="20" class="uk-margin-small-right"> Sign In with Google
+                <img src="/icons/google.png" alt="Google Logo" width="20" class="uk-margin-small-right"> Sign In with
+                Google
             </button>
 
             <div class="uk-text-center uk-margin-small">
-                <a href="" @click.prevent="featureNotAvailable" class="forgot-password dont-have-account-register">Don't have an account? Register</a>
+                <a href="" @click.prevent="featureNotAvailable" class="forgot-password dont-have-account-register">Don't
+                    have an account? Register</a>
             </div>
 
         </div>
@@ -53,22 +55,39 @@ const password = ref('');
 
 const isLoading = ref(false);
 
+const errorSound = new Audio('/sound_effect/error.mp3');
+const successSound = new Audio('/sound_effect/success.mp3');
+
 const handleLogin = async () => {
-  isLoading.value = true;
-  await new Promise(resolve => setTimeout(resolve, 2000)); // 2-second delay for testing
-  if (email.value === 'seo@qstrike.com' && password.value === 'password') {
-    toast.success('Welcome to Dashboard!');
-    localStorage.setItem('authToken', true);
-    router.push('/dashboard');
-  } else {
-    toast.error('Incorrect Email or Password');
-  }
-  isLoading.value = false;
+    isLoading.value = true;
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    if (email.value === 'seo@qstrike.com' && password.value === 'password') {
+        toast.success('Welcome to Dashboard!');
+        localStorage.setItem('authToken', true);
+        soundEffect(true);
+        router.push('/dashboard');
+    } else {
+        toast.error('Incorrect Email or Password');
+        soundEffect(false);
+    }
+    isLoading.value = false;
 };
 
 const featureNotAvailable = () => {
     toast.error('Sorry, Feature Not Available.');
+    soundEffect(false);
 }
+
+function soundEffect(isSuccess) {
+    if (isSuccess === true) {
+        successSound.currentTime = 0;
+        successSound.play();
+    } else {
+        errorSound.currentTime = 0;
+        errorSound.play();
+    }
+}
+
 </script>
 
 <style>

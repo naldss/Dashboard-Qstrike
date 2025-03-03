@@ -1,57 +1,71 @@
 <template>
     <div class="uk-card uk-card-default uk-card-small uk-card-body cards">
-        <div class="card-title">Top 10 Customers/Brands</div>
-        <Bar class="chart" :data="chartData" :options="chartOptions" />
+        <div v-if="topBrandsStore.loading" class="uk-text-center uk-margin-top-large">
+            <span uk-spinner="ratio: 2"></span>
+            <div class="uk-margin-medium-top">Loading brands data...</div>
+        </div>
+        <div v-else>
+            <div class="card-title">Top Selling Brands</div>
+            <Bar class="chart" :data="chartData" :options="chartOptions" />
+        </div>
     </div>
 </template>
 
-<script>
-import { computed } from 'vue';
+<script setup>
+import { computed, onMounted, defineProps } from 'vue';
 import { Bar } from 'vue-chartjs';
-import { Chart, registerables } from 'chart.js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { useTopBrandsStore } from '@/stores/topBrands';
 
-Chart.register(...registerables, ChartDataLabels);
+const props = defineProps({
+    year: Number,
+});
 
-export default {
-    name: 'TopCustomers',
-    components: { Bar },
-    props: {
-        customersData: Array,
-    },
-    setup(props) {
-        const chartData = computed(() => ({
-            labels: props.customersData.map(item => item.name),
-            datasets: [{
-                label: 'Sales',
-                data: props.customersData.map(item => item.sales),
-                backgroundColor: '#66BB6A',
-            }],
-        }));
+const topBrandsStore = useTopBrandsStore();
 
-        const chartOptions = {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-                datalabels: {
-                    anchor: 'end',
-                    align: 'top',
-                    formatter: value => value.toLocaleString(),
-                },
-            },
-        };
+onMounted(async () => {
+    await topBrandsStore.fetchTopBrands();
+});
 
-        return { chartData, chartOptions };
+const filteredBrands = computed(() => {
+    return topBrandsStore.topBrands.filter(brand => brand.year === props.year);
+});
+
+const chartData = computed(() => ({
+    labels: filteredBrands.value.map(item => item.name),
+    datasets: [{
+        label: '',
+        data: filteredBrands.value.map(item => item.sales),
+        backgroundColor: '#66BB6A',
+    }],
+}));
+
+const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+        legend: {
+            display: false,
+        },
+        datalabels: {
+            display: true,
+            formatter: (value) => `$${value.toLocaleString()}`,
+        },
     },
 };
 </script>
 
 <style scoped>
-/* @import "@/assets/css/views/Dashboard.css"; */
-
 .chart {
     min-height: fit-content;
     padding: 1.5em .5em;
 }
 
+.uk-margin-top-large {
+    margin-top: 40px;
+}
+
+.card-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
 </style>
