@@ -1,10 +1,7 @@
 import { defineStore } from 'pinia';
-import axios from 'axios';
 import { useSalesStore } from './sales';
 import { useOrdersStore } from './orders';
 import { useQuantityStore } from './quantity';
-
-axios.defaults.baseURL = 'http://localhost:8000';
 
 export const useDashboardStore = defineStore('dashboard', {
     state: () => ({

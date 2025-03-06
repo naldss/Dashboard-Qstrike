@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import axios from "axios";
+import axios from '@/api/axios';
 
 export const useSalesStore = defineStore("sales", {
     state: () => ({
@@ -67,7 +67,7 @@ export const useSalesStore = defineStore("sales", {
             try {
                 this.loading = true;
                 await Promise.all([
-                    this.fetchTotalSalesData(), // Note: This won't filter by year here; handled in cardsData
+                    this.fetchTotalSalesData(), 
                     this.fetchSalesPerMonth(),
                 ]);
 

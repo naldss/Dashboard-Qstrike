@@ -1,7 +1,6 @@
 <template>
     <div class="uk-section uk-section-muted uk-flex uk-flex-center uk-flex-middle uk-height-viewport">
         <div class="uk-card uk-card-default uk-card-body uk-border-rounded custom-auth-card">
-
             <div class="uk-margin uk-text-center">
                 <img src="/prolook_red.svg" alt="Prolook Logo" width="100">
             </div>
@@ -35,7 +34,6 @@
                 <a href="" @click.prevent="featureNotAvailable" class="forgot-password dont-have-account-register">Don't
                     have an account? Register</a>
             </div>
-
         </div>
         <LoaderUtility v-if="isLoading" />
     </div>
@@ -44,15 +42,16 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useToast } from "vue-toastification";
+import { useToast } from 'vue-toastification';
 import LoaderUtility from '@/components/Utilities/LoaderUtility.vue';
+import axios from '@/api/axios';
+import { setToken } from '@/utils/token';
 
 const toast = useToast();
 const router = useRouter();
 
 const email = ref('');
 const password = ref('');
-
 const isLoading = ref(false);
 
 const errorSound = new Audio('/sound_effect/error.mp3');
@@ -60,26 +59,38 @@ const successSound = new Audio('/sound_effect/success.mp3');
 
 const handleLogin = async () => {
     isLoading.value = true;
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    if (email.value === 'seo@qstrike.com' && password.value === 'password') {
-        toast.success('Welcome to Dashboard!');
-        localStorage.setItem('authToken', true);
+
+    try {
+        await axios.get('/sanctum/csrf-cookie');
+
+        const response = await axios.post('/api/login', {
+            email: email.value,
+            password: password.value,
+        });
+
+        const { token, message } = response.data;
+
+        setToken('authToken', token, 7);
+
         soundEffect(true);
+        toast.success(message || 'Welcome to Dashboard!');
         router.push('/dashboard');
-    } else {
-        toast.error('Incorrect Email or Password');
+    } catch (error) {
+        const errorMessage = error.response?.data?.message || 'Incorrect Email or Password';
+        toast.error(errorMessage);
         soundEffect(false);
+    } finally {
+        isLoading.value = false;
     }
-    isLoading.value = false;
 };
 
 const featureNotAvailable = () => {
     toast.error('Sorry, Feature Not Available.');
     soundEffect(false);
-}
+};
 
 function soundEffect(isSuccess) {
-    if (isSuccess === true) {
+    if (isSuccess) {
         successSound.currentTime = 0;
         successSound.play();
     } else {
@@ -87,7 +98,6 @@ function soundEffect(isSuccess) {
         errorSound.play();
     }
 }
-
 </script>
 
 <style>

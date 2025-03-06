@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import axios from "axios";
+import axios from '@/api/axios';
 
 export const useQuantityStore = defineStore("quantity", {
     state: () => ({
