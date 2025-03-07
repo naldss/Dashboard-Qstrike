@@ -43,14 +43,13 @@
                 </div>
             </div>
 
-            <button @click="logout" class="custom-button uk-width-1-6 uk-margin-top">Logout</button>
+            
         </div>
     </div>
 </template>
 
 <script>
 import { ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toastification';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
@@ -78,7 +77,6 @@ export default {
         VueDatePicker,
     },
     setup() {
-        const router = useRouter();
         const toast = useToast();
         const dashboardStore = useDashboardStore();
         const selectedYear = ref(new Date().getFullYear());
@@ -92,18 +90,10 @@ export default {
             }
         });
 
-        const logout = () => {
-            localStorage.removeItem('authToken');
-            toast.success('Account Logged Out');
-            soundEffect(false);
-            router.push('/login');
-        };
-
         return {
             dashboardStore,
             selectedYear,
             formatYear,
-            logout,
         };
     },
 };
