@@ -46,6 +46,7 @@
             
         </div>
     </div>
+    <FooterBar />
 </template>
 
 <script>
@@ -56,6 +57,7 @@ import '@vuepic/vue-datepicker/dist/main.css';
 
 import { useDashboardStore } from '@/stores/dashboard';
 import NavBar from '@/components/layouts/NavBar.vue';
+import FooterBar from '@/components/layouts/FooterBar.vue';
 import StatCard from '@/components/dashboard/StatCard.vue';
 import SalesPerMonth from '@/components/dashboard/SalesPerMonth.vue';
 import TopSalesReps from '@/components/dashboard/TopSalesReps.vue';
@@ -75,6 +77,7 @@ export default {
         TopSports,
         TopCustomers,
         VueDatePicker,
+        FooterBar,
     },
     setup() {
         const toast = useToast();
