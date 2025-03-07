@@ -39,6 +39,18 @@
     border: solid 1px #c4c4c4;
     background-color: white;
     color: rgb(62, 62, 62);
+
+    border-radius: .5em;
+    height: 2.9em;
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition: .15s ease-in-out;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .signin-with-google:hover {

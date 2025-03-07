@@ -25,7 +25,7 @@
 
             <hr>
 
-            <button @click="featureNotAvailable" class="custom-button signin-with-google uk-width-1-1">
+            <button @click="featureNotAvailable" class="signin-with-google uk-width-1-1">
                 <img src="/icons/google.png" alt="Google Logo" width="20" class="uk-margin-small-right"> Sign In with
                 Google
             </button>

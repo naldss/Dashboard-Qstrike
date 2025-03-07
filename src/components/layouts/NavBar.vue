@@ -16,6 +16,7 @@
             >
             <div v-if="showDropdown" class="dropdown-card">
                 <div class="dropdown-content">
+                    <p class="uk-text-small uk-text-bold uk-text-center uk-text-muted">User Menu</p>
                     <button 
                         @click="logout" 
                         class="custom-button uk-width-1-1"
