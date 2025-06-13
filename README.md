@@ -1,5 +1,5 @@
-# Dashboard-Qstrike
-A practice dashboard from Qstrike internship tasked by team leads before actual company tickets. The practice project includes login page and dashbaord page.
+# Dashboard(Frontend)-Qstrike
+Developed an interactive dashboard featuring real-time data analytics from APIs. The project includes user authentication, animated transitions, sound effects, and responsive UI/UX. Designed and implemented a login system, data visualizations, and interactive elements to enhance usability and engagement for users. The project was assigned for practice and self teach, before handling actual tickets and feature developments.
 
 Watch the video demonstration to see features and functionalities, including animations and sound effects.
 
